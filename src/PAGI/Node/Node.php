@@ -629,6 +629,19 @@ class Node
     }
 
     /**
+     * Loads a prompt message for playing an audio file.
+     *
+     * @param string $filename
+     *
+     * @return Node
+     */
+    public function sayControlStreame($filename, $skipms, $ffchar, $rewchr, $pausechr, $offsetms = 0) {
+        $this->addClientMethodCall('controlStreamFile', $filename, $this->validInterruptDigits,
+                $skipms, $ffchar, $rewchr, $pausechr, $offsetms);
+        return $this;
+    }
+
+    /**
      * Configure the node to expect at least this many digits. The input is
      * considered complete when this many digits has been entered. Cancel and
      * end of input digits (if configured) are not taken into account.
@@ -1368,4 +1381,12 @@ class Node
             . "]"
         ;
     }
+
+    public function setIgnoreChars($chars) {
+        $replace = array('');
+        $search = str_split($chars, 1);
+        $this->validInterruptDigits = str_replace($search, $replace, node::DTMF_ANY);
+        return $this;
+    }
+
 }

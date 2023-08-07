@@ -35,6 +35,8 @@ use PAGI\Client\Result\FaxResult;
 use PAGI\Client\Result\ExecResult;
 use PAGI\Client\Result\DialResult;
 use PAGI\Client\Result\DigitReadResult;
+use PAGI\Client\Result\ControlStreamResult;
+use PAGI\Client\Result\ControlPlayResult;
 use PAGI\Client\Result\DataReadResult;
 use PAGI\Client\Result\PlayResult;
 use PAGI\Client\Result\RecordResult;
@@ -279,6 +281,27 @@ abstract class AbstractClient implements IClient
             )
         );
         return new PlayResult(new DigitReadResult($this->send($cmd)));
+    }
+
+    /**
+     * (non-PHPdoc)
+     * @see PAGI\Client.IClient::controlStreamFile()
+     */
+    public function controlStreamFile($file, $escapeDigits, $skipMs, $FFchar, $REchar, $PAUSEchar, $OffsetMs = 0) {
+        $cmd = implode(
+                ' ',
+                array(
+                    'CONTROL', 'STREAM', 'FILE',
+                    '"' . $file . '"',
+                    '"' . $escapeDigits . '"',
+                    '"' . $skipMs . '"',
+                    '"' . $FFchar . '"',
+                    '"' . $REchar . '"',
+                    '"' . $PAUSEchar . '"',
+                    $OffsetMs
+                )
+        );
+        return new ControlPlayResult(new ControlStreamResult($this->send($cmd)));
     }
 
     /**

@@ -133,6 +133,26 @@ interface IClient
     public function streamFile($file, $escapeDigits = '');
 
     /**
+     * develop by: moti09@gmail.com 
+     * Plays a file with control skip ff and re, can be interrupted by escapeDigits.
+     * Uses agi command "CONTROL STREAM FILE"
+     *
+     * @param string $file         File to play, without .wav extension.
+     * @param string $escapeDigits Optional sequence of digits that can be used
+     * to skip the sound.
+     * @parms integer $skipms
+     * @param string $ffchar       Defaults to #
+     * @param string $rewchr -     Defaults to *
+     * @param string $pausechr
+     * @param integer $offsetms - Offset, in milliseconds, to start the audio playback
+     *
+     * @throws SoundFileException
+     * @throws ChannelDownException
+     * @return PlayResult
+     */
+    public function controlStreamFile($file, $escapeDigits, $skipMs, $FFchar, $REchar, $PAUSEchar, $OffsetMs);
+
+    /**
      * Waits up to <timeout> milliseconds for channel to receive a DTMF digit.
      * Uses agi command "WAIT FOR DIGIT".
      *

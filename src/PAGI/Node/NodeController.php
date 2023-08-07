@@ -74,6 +74,7 @@ class NodeController
      */
     private $name = 'X';
 
+    private $activeNod='X';
     /**
      * Runs a node and process the result.
      *
@@ -92,6 +93,7 @@ class NodeController
         while ($name !== false) {
             $node = $this->nodes[$name];
             $this->logDebug("Running $name");
+            $this->activeNod = $name;
             $node->run();
             $name = $this->processNodeResult($node);
         }
@@ -211,5 +213,13 @@ class NodeController
         $ani = $this->client->getChannelVariables()->getCallerIdName();
         $dnis = $this->client->getChannelVariables()->getDNIS();
         $logger->debug("NodeController: {$this->name}: $ani -> $dnis: $msg");
+    }
+    
+    public function isExist($name) {
+        return isset($this->nodes[$name]);
+    }
+    
+    public function getNode($name) {
+        return isset($this->nodes[$name])? $this->nodes[$name]:false;
     }
 }
